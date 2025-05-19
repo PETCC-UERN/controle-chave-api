@@ -29,6 +29,13 @@ const createUser = async (data: CreateUserDTO) => {
   });
 };
 
+const listUsers = async () => { 
+   return await prisma.user.findMany();
+
+};
+
+
 export default {
   createUser,
+  listUsers
 };
