@@ -13,3 +13,9 @@ model User {
   email    String @unique
   password String
 }
+
+model Objeto {
+  id      String @id  @default(uuid())
+  name    String
+  disponivel  Boolean @default(true)
+}
