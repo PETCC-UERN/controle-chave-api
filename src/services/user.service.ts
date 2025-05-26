@@ -11,12 +11,6 @@ interface DeletUser {
   id: string;
 }
 
-interface UpdateUser {
-  id: string;
-  name?: string;
-  email?: string;
-}
-
 const createUser = async (data: CreateUserDTO) => {
     const emailExistente = await prisma.user.findUnique({
       where: {
@@ -57,32 +51,37 @@ const deleteUser = async (data: DeletUser) => {
   }) 
 } 
 
-const updateNameEmail = async (data: UpdateUser) => {
+const updateUser = async (id:string, data: Partial<CreateUserDTO>) => {
+try {
+
   const user = await prisma.user.findUnique({
     where: {
-      id: data.id,
+      id: id,
     },
   });
-
+  
   if (!user) {
     throw new Error('Usuário não encontrado');
   }
-
-  const updateData: { name?: string; email?: string } = {};
-  if (data.name) updateData.name = data.name;
-  if (data.email) updateData.email = data.email;
-
+  
   const updateUser = await prisma.user.update({
-    where: { id: data.id },
-    data: updateData,
+    where: { id },
+    data: {
+      ...data,
+      password: data.password ? await bcrypt.hash(data.password, 10) : user.password,
+    }
   });
-
+  
   return updateUser;
-};
+  
+} catch (error: any) {
+  return error.message;
+}
 
+};
 
 export default {
   createUser,
   deleteUser,
-  updateNameEmail,
+  updateUser,
 };

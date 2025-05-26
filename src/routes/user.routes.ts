@@ -1,15 +1,15 @@
 import { Router } from 'express';
-import { createUser, deleteUser } from '../controllers/user.controller';
+import { createUser, deleteUser, updateUser } from '../controllers/user.controller';
 
 const router = Router();
 
 // Cria um usuário
-router.post('/user', createUser);
+router.post('/', createUser);
 
 // Atualiza um usuário pelo id
-// router.put('/users/:id', updateUser1);
+router.put('/:id', updateUser);
 
 // Deleta um usuário pelo id
-router.delete('/user/:id', deleteUser);
+router.delete('/:id', deleteUser);
 
 export default router;

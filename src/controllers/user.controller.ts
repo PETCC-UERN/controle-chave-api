@@ -20,19 +20,18 @@ export const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
-// export const updateUser1 = async (req: Request, res: Response) => {
-//   try {
-//     const id = req.params.id;
-//     const { name, email } = req.body; // espera receber { id, name?, email? }
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
     
-//     if (!id) {
-//       return res.status(400).json({ error: 'ID do usuário é obrigatório' });
-//     }
+    if (!id) {
+      res.status(400).json({ error: 'ID do usuário é obrigatório' });
+    }
 
-//     const updatedUser = await userService.updateNameEmail({ id, name, email });
+    const updatedUser = await userService.updateUser(id, req.body );
 
-//     return res.json(updatedUser);
-//   } catch (error: any) {
-//     return res.status(400).json({ error: error.message || 'Erro interno' });
-//   }
-// };
+    res.json(updatedUser);
+  } catch (error: any) {
+    res.status(400).json({ error: error.message || 'Erro interno' });
+  }
+};
