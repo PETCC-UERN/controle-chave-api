@@ -8,12 +8,12 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  name     String
-  email    String @unique
-  password String
-  matricula String @unique
-  tipoUser TipoUser
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  matricula String   @unique
+  tipoUser  TipoUser
 }
 
 enum TipoUser {
@@ -21,3 +21,8 @@ enum TipoUser {
   PROFESSOR
 }
 
+model Objeto {
+  id         String  @id @default(uuid())
+  name       String
+  disponivel Boolean @default(true)
+}
