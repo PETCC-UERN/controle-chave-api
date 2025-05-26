@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 
 import userRoutes from './routes/user.routes';
+import objectRoutes from './routes/object.routes';
 
 dotenv.config();
 
@@ -17,8 +18,8 @@ app.get('/', (req, res) => {
     res.send('API funcionando 🚀');
 });
 
-
 app.use('/users', userRoutes);
+app.use('/object', objectRoutes);
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
