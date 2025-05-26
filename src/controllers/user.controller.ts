@@ -20,6 +20,15 @@ export const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
+export const listUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await userService.listUsers();
+    res.status(200).json(users);
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 export const updateUser = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
