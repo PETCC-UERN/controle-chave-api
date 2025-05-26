@@ -69,6 +69,9 @@ try {
     data: {
       ...data,
       password: data.password ? await bcrypt.hash(data.password, 10) : user.password,
+    },
+    omit: {
+      password: true, // Exclui o campo de senha do retorno
     }
   });
   
