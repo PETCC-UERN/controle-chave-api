@@ -5,6 +5,8 @@ interface CreateUserDTO {
   name: string;
   email: string;
   password: string;
+  matricula: string;
+  tipoUser:  "ALUNO" | "PROFESSOR";
 }
 
 interface DeletUser {
@@ -26,9 +28,8 @@ const createUser = async (data: CreateUserDTO) => {
 
   return await prisma.user.create({
     data:{
-        email: data.email,
-        name: data.name,
-        password: hashedPassword,
+      ...data,
+      password: hashedPassword,
     }
   });
 };
