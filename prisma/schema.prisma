@@ -14,10 +14,17 @@ model User {
   password  String
   matricula String   @unique
   tipoUser  TipoUser
+
+  // Relações
+  emprestimosRealizados Emprestimo[] @relation("AlunoEmprestimos")
+  emprestimosAprovados  Emprestimo[] @relation("TecnicoAprovador")
+  emprestimosRecebidos  Emprestimo[] @relation("TecnicoRecebedor")
+  reservas              Reserva[]
 }
 
 enum TipoUser {
   ALUNO
+  TECNICO
   PROFESSOR
 }
 
@@ -25,4 +32,45 @@ model Objeto {
   id         String  @id @default(uuid())
   name       String
   disponivel Boolean @default(true)
+
+  emprestimos Emprestimo[]
+  reservas    Reserva[]
+}
+
+enum StatusEmprestimo {
+  PENDENTE
+  REPROVADO
+  EM_USO
+  DEVOLVIDO
+  ATRASADO
+}
+
+model Emprestimo {
+  id                      String    @id @default(uuid())
+  dataEmprestimo          DateTime  @default(now())
+  dataDevolucaoEmprestimo DateTime?
+
+  status StatusEmprestimo @default(PENDENTE)
+
+  userId             String
+  tecnicoAprovadorId String
+  tecnicoRecebedorId String?
+  objetoId           String
+
+  aluno            User   @relation("AlunoEmprestimos", fields: [userId], references: [id])
+  tecnicoAprovador User   @relation("TecnicoAprovador", fields: [tecnicoAprovadorId], references: [id])
+  tecnicoRecebedor User?  @relation("TecnicoRecebedor", fields: [tecnicoRecebedorId], references: [id])
+  objeto           Objeto @relation(fields: [objetoId], references: [id])
+}
+
+model Reserva {
+  id          String   @id @default(uuid())
+  dataReserva DateTime
+  confirmado  Boolean  @default(false)
+
+  userId   String
+  objetoId String
+
+  aluno  User   @relation(fields: [userId], references: [id])
+  objeto Objeto @relation(fields: [objetoId], references: [id])
 }

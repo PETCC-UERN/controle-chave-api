@@ -6,7 +6,7 @@ interface CreateUserDTO {
   email: string;
   password: string;
   matricula: string;
-  tipoUser:  "ALUNO" | "PROFESSOR";
+  tipoUser:  "ALUNO" | "TECNICO";
 }
 
 interface DeletUser {
